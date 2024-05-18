@@ -12,6 +12,8 @@ codealike.json
 .DS_Store
 *.pem
 
+yarn.lock
+
 # debug
 npm-debug.log*
 yarn-debug.log*

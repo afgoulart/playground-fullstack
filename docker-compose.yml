@@ -40,6 +40,6 @@ services:
       MONGODB_URL: mongodb://root:example@mongo:27017/
       PORT: 3001
     working_dir: /application/back
-    command: npm run dev
+    command: npm i && npm run dev
     depends_on:
       - mongo
