@@ -1,0 +1,7 @@
+FROM node
+
+COPY /back/package.json /application/back/package.json
+
+WORKDIR /application/back
+
+RUN npm install

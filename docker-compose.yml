@@ -29,7 +29,9 @@ services:
       - mongo
 
   backend:
-    image: node
+    build:
+      context: ./
+      dockerfile: Dockerfile.back.yml
     container_name: api
     ports:
       - 3001:3001
@@ -40,6 +42,6 @@ services:
       MONGODB_URL: mongodb://root:example@mongo:27017/
       PORT: 3001
     working_dir: /application/back
-    command: npm i && npm run dev
+    command: npm run dev
     depends_on:
       - mongo
