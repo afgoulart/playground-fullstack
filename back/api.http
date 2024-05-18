@@ -1,0 +1,97 @@
+### Variables
+
+### Test Base API
+GET  http://localhost:3001/health
+
+### AUTH REQUESTS
+
+### Variables
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ4MzA2NjY1NDNjZTY4YmFmNzExNTEiLCJpYXQiOjE3MTYwMDk2NTAsImV4cCI6MTcxNjM2OTY1MH0.JE8VqiMlR3O51YERfQkKmnZHDr0Wr7cnHFjfqYLz9Ew
+@login = { "email": "hello@email.com", "password": "password" }
+
+### Get authenticated user given the token
+GET  http://localhost:3001/auth
+x-auth-token: {{token}}
+
+### Login user and get token
+POST  http://localhost:3001/auth
+content-type: application/json
+
+{{login}}
+
+### PROFILE REQUESTS
+
+### Variables
+@profile = { "firstName": "John", "lastName": "Doe", "username": "john.doe" }
+@userId = 664830666543ce68baf71151
+
+### Get current user's profile
+GET  http://localhost:3001/profile/me
+x-auth-token: {{token}}
+
+### Create or update user's profile
+POST  http://localhost:3001/profile
+x-auth-token: {{token}}
+content-type: application/json
+
+{{profile}}
+
+### Get all profiles
+GET  http://localhost:3001/profile
+
+### Get profile by userId
+GET  http://localhost:3001/profile/user/{{userId}}
+
+### Delete profile and user
+DELETE  http://localhost:3001/profile
+x-auth-token: {{token}}
+
+### USER REQUESTS
+
+### Variables
+@user = { "email": "hello@email.com", "password": "password"}
+
+### Register user given their email and password, returns the token upon successful registration
+POST  http://localhost:3001/user
+content-type: application/json
+
+{{user}}
+
+### EMPLOYEES REQUESTS
+
+### Variable
+@employee = { "name": "Test Employe 1", "department": "IT", "role": "IT Manager"}
+@employeeId = 6648c302a92a5a66e3a4a92a
+
+### List Employees
+GET http://localhost:3001/employee
+x-auth-token: {{token}}
+
+### Create a new employee'
+POST http://localhost:3001/employee
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{{employee}}
+
+### Get employee by id
+GET http://localhost:3001/employee/{{employeeId}}
+x-auht-token: {{token}}
+Content-Type: application/json
+
+
+### Put employee by id
+PUT  http://localhost:3001/employee/{{employeeId}}
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test Employee Updated",
+  "department": "HR",
+  "role": "Assistent"
+}
+
+### Delete employee id
+DELETE http://localhost:3001/employee/{{employeeId}}
+x-auth-token: {{token}}
+Content-Type: application/json
