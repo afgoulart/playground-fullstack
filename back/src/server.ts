@@ -6,6 +6,24 @@ import auth from "./routes/auth";
 import user from "./routes/user";
 import profile from "./routes/profile";
 import employee from "./routes/employee";
+import winston, { ExceptionHandler } from "winston";
+
+const logger = winston.createLogger({
+  // Log only if level is less than (meaning more severe) or equal to this
+  level: "info",
+  // Use timestamp and printf to create a standard log format
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.printf(
+      (info) => `${info.timestamp} ${info.level}: ${info.message}`
+    )
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "logs/app.log" }),
+  ],
+});
+
 
 const app = express();
 
@@ -16,6 +34,12 @@ connectDB();
 app.set("port", process.env.PORT || 3001);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  // Log an info message for each incoming request
+  logger.info(`Received a ${req.method} request for ${req.url}`);
+  next();
+});
 
 // @route   GET / -> 301 /health
 // @desc    Test Base API

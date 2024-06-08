@@ -14,11 +14,12 @@ const config = require('../../config/default.json');
 const router: Router = Router();
 
 // @route   POST /user
-// @desc    Register user given their email and password, returns the token upon successful registration
+// @desc    Register user given their name, email and password, returns the token upon successful registration
 // @access  Public
 router.post(
   "/",
   [
+    check("name", "Please include your name").isString(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
@@ -26,14 +27,15 @@ router.post(
     ).isLength({ min: 6 }),
   ],
   async (req: Request, res: Response) => {
+    console.log('>>>', req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
         .status(HttpStatusCodes.BAD_REQUEST)
-        .json({ errors: errors.array() });
+        .json({ body: req.body, errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     try {
       let user: IUser = await User.findOne({ email });
 
@@ -60,6 +62,7 @@ router.post(
 
       // Build user object based on TUser
       const userFields: TUser = {
+        name,
         email,
         password: hashed,
         avatar,

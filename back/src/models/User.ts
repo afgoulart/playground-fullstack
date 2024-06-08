@@ -1,19 +1,22 @@
 import { Document, model, Schema } from "mongoose";
 
 /**
+ * name: String
  * @param email:string
  * @param password:string
  * @param avatar:string
  */
 
 export type TUser = {
+  name: String
   email: string;
   password: string;
   avatar: string;
 };
 
 /**
- * TUser
+ * IUser
+ * @param name:string
  * @param email:string
  * @param password:string
  * @param avatar:string
@@ -22,6 +25,10 @@ export type TUser = {
 export interface IUser extends TUser, Document { }
 
 const userSchema: Schema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,

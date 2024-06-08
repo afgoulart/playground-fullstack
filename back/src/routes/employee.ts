@@ -13,6 +13,8 @@ const router: Router = Router();
 // @desc    Get all employees
 // @access  Private
 router.get("/", auth, async (req: Request, res: Response) => {
+  const { page, limit } = req.query
+
   try {
     const employee: IEmployee = await Employee.find({}) as any;
     if (!employee) {
